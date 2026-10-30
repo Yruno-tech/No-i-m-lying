@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>No, I'm Lying</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <main class="game">
+
+        <!-- Escenario -->
+        <div class="room">
+            <!-- Transición entre escenarios -->
+            <div id="scene-transition"></div>
+            <div id="character-intro" class="character-intro">
+                <span id="intro-number">SOSPECHOSO N.º 01</span>
+                <h1 id="intro-name">ANDRÉS</h1>
+                <span id="intro-profession">INTERROGATORIO</span>
+            </div>
+            <div class="room-title">
+                <span>NO, I'M LYING</span>
+                <span>SALA DE INTERROGATORIOS</span>
+            </div>
+
+            <!-- Objetos interactivos -->
+            <button class="object expediente" onclick="abrirVentana('expediente')">
+                <span class="object-icon">▤</span>
+                <span>EXPEDIENTE</span>
+            </button>
+
+            <button class="object diario" onclick="abrirVentana('diario')">
+                <span class="object-icon">▧</span>
+                <span>DIARIO</span>
+            </button>
+
+            <!-- Identificación del sospechoso -->
+            <div class="suspect-name">
+                <span class="status-light"></span>
+                <span id="nombre-sospechoso">SOSPECHOSO</span>
+            </div>
+
+            <!-- Interfaz de diálogo -->
+            <section class="dialogue">
+
+                <div class="dialogue-header">
+                    <span id="speaker">INTERROGATORIO</span>
+
+                    <div class="question-counter">
+                        <span class="question-dot active"></span>
+                        <span class="question-dot active"></span>
+                    </div>
+                </div>
+
+                <div class="dialogue-content" id="dialogue-content">
+                    <p class="system-message">
+                        La habitación permanece en silencio.
+                    </p>
+
+                    <p class="system-message">
+                        El sospechoso está esperando tus preguntas.
+                    </p>
+                </div>
+
+                <form id="question-form" class="question-form">
+
+                    <input
+                        type="text"
+                        id="question-input"
+                        placeholder="Escribe tu pregunta..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit" id="ask-button">
+                        PREGUNTAR ↗
+                    </button>
+
+                </form>
+                <div id="decision-panel" class="decision-panel hidden">
+
+                    <p>EL INTERROGATORIO HA TERMINADO</p>
+
+                    <div class="decision-buttons">
+
+                        <button onclick="tomarDecision('liberar')">
+                            LIBERAR
+                        </button>
+
+                        <button onclick="tomarDecision('capturar')">
+                            CAPTURAR
+                        </button>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Oscurecimiento de fondo para ventanas -->
+            <div id="modal-overlay" class="modal-overlay hidden">
+
+                <section class="modal">
+
+                    <button class="close-modal" onclick="cerrarVentana()">
+                        ✕
+                    </button>
+
+                    <h2 id="modal-title">EXPEDIENTE</h2>
+
+                    <div id="modal-content"></div>
+
+                </section>
+
+            </div>
+
+            <div class="bottom-label">
+                OBSERVA. ESCUCHA. NO CONFÍES EN TODO LO QUE DICE.
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

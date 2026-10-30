@@ -1,0 +1,556 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #05090e;
+    color: #e0e5e9;
+    font-family: Georgia, "Times New Roman", serif;
+    overflow: hidden;
+}
+
+.game {
+    width: 100vw;
+    height: 100vh;
+}
+
+.room {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    --scene-image: url("/static/images/interrogatorio_hombre.jpg");
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(0, 5, 12, 0.30),
+            rgba(0, 5, 12, 0.08) 50%,
+            rgba(0, 5, 12, 0.72)
+        ),
+        var(--scene-image);
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Encabezado */
+
+.room-title {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    right: 30px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #b4c5d4;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    opacity: 0.75;
+}
+
+/* Objetos interactivos */
+
+.object {
+    position: absolute;
+    bottom: 27%;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    padding: 12px 16px;
+
+    background: rgba(9, 17, 25, 0.75);
+    border: 1px solid rgba(167, 190, 207, 0.35);
+    border-radius: 3px;
+
+    color: #d4e0e8;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.object:hover {
+    background: rgba(46, 72, 91, 0.9);
+    border-color: #b8d5e9;
+    transform: translateY(-5px);
+}
+
+.object-icon {
+    font-size: 25px;
+}
+
+.expediente {
+    left: 5%;
+}
+
+.diario {
+    right: 5%;
+}
+
+/* Nombre del sospechoso */
+
+.suspect-name {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    color: #d5e0e9;
+    text-shadow: 0 2px 8px black;
+}
+
+.status-light {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #9d4141;
+    box-shadow: 0 0 8px #bd4545;
+}
+
+/* Diálogo */
+
+.dialogue {
+    position: absolute;
+    left: 50%;
+    bottom: 45px;
+    transform: translateX(-50%);
+
+    width: min(760px, 88%);
+
+    padding: 18px 22px;
+
+    background: rgba(5, 11, 17, 0.91);
+    border: 1px solid rgba(151, 180, 203, 0.3);
+
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+}
+
+.dialogue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(164, 187, 204, 0.2);
+
+    color: #a9c0d3;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.question-counter {
+    display: flex;
+    gap: 6px;
+}
+
+.question-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34414b;
+}
+
+.question-dot.active {
+    background: #b5d2e8;
+    box-shadow: 0 0 7px #8cb8d8;
+}
+
+.dialogue-content {
+    min-height: 100px;
+    max-height: 180px;
+    overflow-y: auto;
+
+    padding: 15px 0;
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.dialogue-content p {
+    margin-bottom: 10px;
+}
+
+.system-message {
+    color: #8999a6;
+    font-style: italic;
+}
+
+.player-message {
+    color: #8db9d8;
+}
+
+.suspect-message {
+    color: #e0e5e9;
+}
+
+/* Campo de pregunta */
+
+.question-form {
+    display: flex;
+    gap: 10px;
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(164, 187, 204, 0.2);
+}
+
+.question-form input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 13px;
+
+    background: rgba(14, 24, 33, 0.9);
+    border: 1px solid rgba(147, 174, 195, 0.25);
+    outline: none;
+
+    color: white;
+    font-size: 14px;
+}
+
+.question-form input:focus {
+    border-color: #8db9d8;
+}
+
+.question-form button {
+    padding: 0 20px;
+
+    background: #243d50;
+    border: 1px solid #58758c;
+
+    color: #e4eff7;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.question-form button:hover {
+    background: #365b75;
+}
+
+.question-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Ventanas */
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(5px);
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    position: relative;
+
+    width: min(650px, 100%);
+    max-height: 80vh;
+    overflow-y: auto;
+
+    padding: 35px;
+
+    background: #111b24;
+    border: 1px solid #536c80;
+
+    box-shadow: 0 20px 80px black;
+}
+
+.modal h2 {
+    margin-bottom: 25px;
+
+    color: #c5d9e8;
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+
+.modal p {
+    margin-bottom: 15px;
+    color: #bdc9d2;
+    line-height: 1.6;
+}
+
+.modal h3 {
+    margin: 22px 0 10px;
+    color: #9ebbd0;
+    font-size: 14px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+
+    background: none;
+    border: none;
+
+    color: #aebdca;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: white;
+}
+
+.diary-textarea {
+    width: 100%;
+    min-height: 250px;
+    resize: vertical;
+
+    padding: 15px;
+
+    background: #0b1219;
+    border: 1px solid #405567;
+    outline: none;
+
+    color: #dce7ef;
+    font-family: Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.diary-textarea:focus {
+    border-color: #8db9d8;
+}
+
+/* Pie */
+
+.bottom-label {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    text-align: center;
+
+    color: #9cabb7;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    opacity: 0.7;
+}
+
+/* Pantallas pequeñas */
+
+@media (max-width: 700px) {
+
+    .room {
+        background-position: center;
+    }
+
+    .room-title {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .object {
+        bottom: 32%;
+        padding: 8px;
+        font-size: 8px;
+    }
+
+    .dialogue {
+        bottom: 35px;
+        width: 94%;
+        padding: 13px;
+    }
+
+    .dialogue-content {
+        min-height: 80px;
+        font-size: 14px;
+    }
+
+    .question-form button {
+        padding: 0 10px;
+    }
+
+    .bottom-label {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+}
+/* Transición de escenas */
+
+#scene-transition {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    background: black;
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.6s ease-in-out;
+}
+
+#scene-transition.active {
+    opacity: 1;
+}
+/* Presentación del sospechoso */
+
+.character-intro {
+    position: absolute;
+    z-index: 11;
+
+    top: 45%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    width: 100%;
+
+    opacity: 0;
+    pointer-events: none;
+
+    text-align: center;
+
+    text-shadow: 0 3px 15px black;
+}
+
+.character-intro.visible {
+    animation: intro-animation 2.5s ease forwards;
+}
+
+.character-intro span {
+    color: #a9c1d4;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+}
+
+.character-intro h1 {
+    color: #edf4f9;
+    font-size: clamp(30px, 6vw, 55px);
+    font-weight: normal;
+    letter-spacing: 8px;
+}
+
+@keyframes intro-animation {
+
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+    }
+
+    20%, 75% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+}
+
+/* Decisiones */
+
+.decision-panel {
+    padding-top: 15px;
+    border-top: 1px solid rgba(164, 187, 204, 0.2);
+    text-align: center;
+}
+
+.decision-panel p {
+    margin-bottom: 15px;
+    color: #a9c0d3;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.decision-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.decision-buttons button {
+    min-width: 130px;
+    padding: 12px 20px;
+
+    background: #182a38;
+    border: 1px solid #607b91;
+
+    color: #e0eaf1;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.decision-buttons button:hover {
+    background: #304e64;
+}
+
+.decision-buttons button:last-child {
+    border-color: #9a5555;
+}
+
+.decision-buttons button:last-child:hover {
+    background: #673a3a;
+}
+
+/* Estado de espera */
+
+.thinking-message {
+    color: #8ca8bd;
+    font-style: italic;
+    animation: thinking 1.5s infinite;
+}
+
+@keyframes thinking {
+    50% {
+        opacity: 0.35;
+    }
+}
